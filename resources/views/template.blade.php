@@ -9,20 +9,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <title>@yield('Data Mahasiswa UCIC')</title>
+    <body style ="background-color:#dcdcdc;">
   </head>
   <body>
 
-  <div class="container">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-md-6 mg-2">
+
+  <img src="{{ url('img/logo.png')}}" class="rounded mx-auto d-block" width="600"alt="100"><br><br>
+  </div>
+  </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-        <a class="navbar-brand" href="/#">Aplikasi Absensi Mahasiswa</a>
+        <a class="navbar-brand" href="/mahasiswas">Aplikasi Absensi Mahasiswa UCIC</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-            <a class="nav-link active" href="/mahasiswas">Tabel Mahasiswa</a>
-            <a class="nav-link" href="/matakuliahs">Tabel Mata Kuliah</a>
-            <a class="nav-link" href="/absensis">Tabel Absensi</a>
+            <a class="nav-link active" href="/mahasiswas">Mahasiswa</a>
+            <a class="nav-link" href="/matakuliahs">Matakuliah</a>
+            <a class="nav-link" href="/absensis">Absensi</a>
+            <a class="nav-link" href="/jadwals">Jadwal</a>
+            <a class="nav-link" href="/kontrakmks">Kontrak Matakuliah</a>
+            <a class="nav-link" href="/semesters">Semester</a>
             </div>
         </div>
         </nav>

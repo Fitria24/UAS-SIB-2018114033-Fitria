@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\absensi;
 
-class AbsController extends Controller
+use App\Models\jadwal;
+class JdwController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class AbsController extends Controller
      */
     public function index()
     {
-        $absensis = absensi::latest()->paginate(5);
-        return view ('absensis.index',compact('absensis'))
+        $jadwals = jadwal::latest()->paginate(5);
+        return view ('jadwals.index',compact('jadwals'))
         ->with('i',(request()->input('page',1)-1)*5);
     
     }
@@ -27,7 +27,7 @@ class AbsController extends Controller
      */
     public function create()
     {
-        return view('absensis.create');
+        return view('jadwals.create');
     }
 
     /**
@@ -39,15 +39,14 @@ class AbsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'waktu_absen'=>'required',
-            'mahasiswa_id' => 'required|numeric',
+            'jadwal'=>'required',
             'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
+           
         ]);
 
-        absensi::create($request->all());
-        return redirect()->route('matakuliahs.index')
-            ->with ('success','Matakuliah created successfully.');
+        jadwal::create($request->all());
+        return redirect()->route('jadwals.index')
+            ->with ('success','Jadwal created successfully.');
     }
 
 
@@ -59,8 +58,8 @@ class AbsController extends Controller
      */
     public function show($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.show',['absensi'=>$absensi]);
+        $jadwal = jadwal::findOrFail($id);
+        return view('jadwals.show',['jadwal'=>$jadwal]);
     }
 
     /**
@@ -71,8 +70,8 @@ class AbsController extends Controller
      */
     public function edit($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.edit',['absensi'=>$absensi]);
+        $jadwal = jadwal::findOrFail($id);
+        return view('jadwals.edit',['jadwal'=>$jadwal]);
     }
 
     /**
@@ -85,15 +84,19 @@ class AbsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'waktu_absen'=>'required',
-            'mahasiswa_id' => 'required|numeric',
+            'jadwal'=>'required',
             'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
         ]);
 
-        absensi::update($request->all());
-        return redirect()->route('absensis.index')
-            ->with ('success','Absensi updated successfully.');
+        $jadwal = jadwal::find($id);
+        $dataRequest = $request->all();
+        $dataResult = array_filter($dataRequest);
+        $jadwal->update($dataRequest);
+
+        return redirect ('jadwals')
+                    ->with ('success'.'Jadwal updated successfully');
+       
+
     }
 
     /**
@@ -104,9 +107,9 @@ class AbsController extends Controller
      */
     public function destroy($id)
     {
-        $absensi = absensi :: where ('id',$id)->first();
-        if($absensi){
-            return $absensi -> delete();
+        $jadwal = jadwal:: where ('id',$id)->first();
+        $jadwal -> delete(); return redirect()->route('jadwals.index')
+        ->with ('success','Jadwal deleted successfully.');
     }
-}
+       
 }

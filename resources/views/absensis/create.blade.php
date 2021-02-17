@@ -1,10 +1,11 @@
 @extends('template')
  
 @section('content')
+<form action="/absensis" method="POST">
 <div class="row mt-5 mb-5">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Tambah Absensi </h2>
+            <h2>Data Absensi </h2>
         </div>
         <div class="float-right">
             <a class="btn btn-secondary" href="{{ route('absensis.index') }}"> Back</a>
@@ -30,19 +31,19 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Waktu Absen:</strong>
-                <input type="datetime" name="waktu_absen" class="form-control" placeholder="Waktu Absen">
+                <input type="time" name="waktu_absen" class="form-control" placeholder="Waktu Absen">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Nama Mahasiswa:</strong>
-                <input type="string" name="nama_mahasiswa" class="form-control" placeholder="Nama Mahasiswa">
+                <strong>Mahasiswa Id:</strong>
+                <input type="string" name="mahasiswa_id" class="form-control" placeholder="Mahasiswa Id">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Mata Kuliah:</strong>
-                <input type="string" name="mata_kuliah" class="form-control" placeholder="Mata Kuliah">
+                <strong>Matakuliah Id:</strong>
+                <input type="string" name="matakuliah_id" class="form-control" placeholder="Matakuliah Id">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

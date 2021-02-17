@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\absensi;
 
-class AbsController extends Controller
+use App\Models\kontrakmk;
+class KontrakmkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class AbsController extends Controller
      */
     public function index()
     {
-        $absensis = absensi::latest()->paginate(5);
-        return view ('absensis.index',compact('absensis'))
+        $kontrakmks = kontrakmk::latest()->paginate(5);
+        return view ('kontrakmks.index',compact('kontrakmks'))
         ->with('i',(request()->input('page',1)-1)*5);
     
     }
@@ -27,7 +27,7 @@ class AbsController extends Controller
      */
     public function create()
     {
-        return view('absensis.create');
+        return view('kontrakmks.create');
     }
 
     /**
@@ -39,15 +39,13 @@ class AbsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'waktu_absen'=>'required',
             'mahasiswa_id' => 'required|numeric',
-            'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
+            'semester_id'=> 'required|numeric',
         ]);
 
-        absensi::create($request->all());
-        return redirect()->route('matakuliahs.index')
-            ->with ('success','Matakuliah created successfully.');
+        kontrakmk::create($request->all());
+        return redirect()->route('kontrakmks.index')
+            ->with ('success','Kontrak Matakuliah created successfully.');
     }
 
 
@@ -59,8 +57,8 @@ class AbsController extends Controller
      */
     public function show($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.show',['absensi'=>$absensi]);
+        $kontrakmk = kontrakmk::findOrFail($id);
+        return view('kontrakmks.show',['kontrakmk'=>$kontrakmk]);
     }
 
     /**
@@ -71,8 +69,8 @@ class AbsController extends Controller
      */
     public function edit($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.edit',['absensi'=>$absensi]);
+        $kontrakmk = kontrakmk::findOrFail($id);
+        return view('kontrakmks.edit',['kontrakmk'=>$kontrakmk]);
     }
 
     /**
@@ -85,15 +83,16 @@ class AbsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'waktu_absen'=>'required',
             'mahasiswa_id' => 'required|numeric',
-            'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
+            'semester_id'=> 'required|numeric',
         ]);
+        $kontrakmk = kontrakmk::find($id);
+        $dataRequest = $request->all();
+        $dataResult = array_filter($dataRequest);
+        $kontrakmk->update($dataRequest);
 
-        absensi::update($request->all());
-        return redirect()->route('absensis.index')
-            ->with ('success','Absensi updated successfully.');
+        return redirect ('kontrakmks')
+        ->with ('success'.'Kontrak Matakuliah updated successfully');
     }
 
     /**
@@ -104,9 +103,8 @@ class AbsController extends Controller
      */
     public function destroy($id)
     {
-        $absensi = absensi :: where ('id',$id)->first();
-        if($absensi){
-            return $absensi -> delete();
+        $kontrakmk = kontrakmk :: where ('id',$id)->first();
+        $kontrakmk -> delete(); return redirect()->route('kontrakmks.index')
+        ->with ('success','Kontrak Matakuliah deleted successfully.');
+       }
     }
-}
-}

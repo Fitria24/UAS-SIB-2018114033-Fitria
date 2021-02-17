@@ -10,4 +10,10 @@ class mahasiswa extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $fillable = ['nama_mahasiswa','alamat','no_tlp','email',];
+
+public function absensi()
+
+    {
+        return $this->hasMany('App\Models\absensi');
+    }
 }

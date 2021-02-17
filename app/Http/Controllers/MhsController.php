@@ -45,7 +45,7 @@ class MhsController extends Controller
             'email'=> 'required',
         ]);
 
-        Post::create($request->all());
+        mahasiswa::create($request->all());
         return redirect()->route('mahasiswas.index')
             ->with ('success','Mahasiswa created successfully.');
     }
@@ -59,7 +59,8 @@ class MhsController extends Controller
      */
     public function show($id)
     {
-        return view('mahasiswas.show',compact('post'));
+        $mahasiswa = mahasiswa::findOrFail($id);
+        return view('mahasiswas.show',['mahasiswa'=>$mahasiswa]);
     }
 
     /**
@@ -70,7 +71,8 @@ class MhsController extends Controller
      */
     public function edit($id)
     {
-        return view('mahasiswas.edit',compact('post'));
+        $mahasiswa = mahasiswa::findOrFail($id);
+        return view('mahasiswas.edit',['mahasiswa'=>$mahasiswa]);
     }
 
     /**
@@ -89,11 +91,14 @@ class MhsController extends Controller
             'email'=> 'required',
         ]);
 
-        Post::update($request->all());
-        return redirect()->route('mahasiswas.index')
-            ->with ('success','Mahasiswa updated successfully.');
-    }
+        $mahasiswa = mahasiswa::find($id);
+        $dataRequest = $request->all();
+        $dataResult = array_filter($dataRequest);
+        $mahasiswa->update($dataRequest);
 
+        return redirect ('mahasiswas')
+                    ->with ('success'.'Mahasiswa updated successfully');
+        }
     /**
      * Remove the specified resource from storage.
      *
@@ -102,8 +107,8 @@ class MhsController extends Controller
      */
     public function destroy($id)
     {
-        Post::delete();
-        return redirect()->route('mahasiswas.index')
-            ->with ('success','Mahasiswa deleted successfully.');
+       $mahasiswa = mahasiswa :: where ('id',$id)->first();
+       $mahasiswa -> delete(); return redirect()->route('mahasiswas.index')
+       ->with ('success','Mahasiswa deleted successfully.');
     }
 }

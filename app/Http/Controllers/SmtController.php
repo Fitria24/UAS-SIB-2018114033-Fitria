@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\absensi;
 
-class AbsController extends Controller
+use App\Models\semester;
+class SmtController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class AbsController extends Controller
      */
     public function index()
     {
-        $absensis = absensi::latest()->paginate(5);
-        return view ('absensis.index',compact('absensis'))
+        $semesters = semester::latest()->paginate(5);
+        return view ('semesters.index',compact('semesters'))
         ->with('i',(request()->input('page',1)-1)*5);
     
     }
@@ -27,7 +27,7 @@ class AbsController extends Controller
      */
     public function create()
     {
-        return view('absensis.create');
+        return view('semesters.create');
     }
 
     /**
@@ -39,15 +39,14 @@ class AbsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'waktu_absen'=>'required',
-            'mahasiswa_id' => 'required|numeric',
-            'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
+            
+            'semester' => 'required|numeric',
+           
         ]);
 
-        absensi::create($request->all());
-        return redirect()->route('matakuliahs.index')
-            ->with ('success','Matakuliah created successfully.');
+        semester::create($request->all());
+        return redirect()->route('semesters.index')
+            ->with ('success','Semester created successfully.');
     }
 
 
@@ -59,8 +58,8 @@ class AbsController extends Controller
      */
     public function show($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.show',['absensi'=>$absensi]);
+        $semester = semester::findOrFail($id);
+        return view('semesters.show',['semester'=>$semester]);
     }
 
     /**
@@ -71,8 +70,8 @@ class AbsController extends Controller
      */
     public function edit($id)
     {
-        $absensi = absensi::findOrFail($id);
-        return view('absensis.edit',['absensi'=>$absensi]);
+        $semester = semester::findOrFail($id);
+        return view('semesters.edit',['semester'=>$semester]);
     }
 
     /**
@@ -85,15 +84,17 @@ class AbsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'waktu_absen'=>'required',
-            'mahasiswa_id' => 'required|numeric',
-            'matakuliah_id' => 'required|numeric',
-            'keterangan'=>'required',
+            'semester' => 'required|numeric',
+            
         ]);
 
-        absensi::update($request->all());
-        return redirect()->route('absensis.index')
-            ->with ('success','Absensi updated successfully.');
+        $semester = semester::find($id);
+        $dataRequest = $request->all();
+        $dataResult = array_filter($dataRequest);
+        $semester->update($dataRequest);
+
+        return redirect ('semesters')
+                    ->with ('success'.'Semester updated successfully');
     }
 
     /**
@@ -104,9 +105,8 @@ class AbsController extends Controller
      */
     public function destroy($id)
     {
-        $absensi = absensi :: where ('id',$id)->first();
-        if($absensi){
-            return $absensi -> delete();
+        $semester = semester :: where ('id',$id)->first();
+        $semester -> delete(); return redirect()->route('semesters.index')
+        ->with ('success','Semester deleted successfully.');
     }
-}
 }
